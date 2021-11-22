@@ -6,11 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.androidcourse.myapplication.R;
 import com.androidcourse.myapplication.activity.activity.adapter.Adapter;
 import com.androidcourse.myapplication.activity.activity.model.Film;
+import com.androidcourse.myapplication.activity.activity.model.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,39 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
+
+        recyclerView.addOnItemTouchListener(
+            new RecyclerItemClickListener(
+                    getApplicationContext(),
+                    recyclerView,
+                    new RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        }
+
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Film movie = filmList.get(position);
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Item Clicked: " + movie.getTitle(),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+
+                        @Override
+                        public void onLongItemClick(View view, int position) {
+                            Film movie = filmList.get(position);
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Long Click: " + movie.getTitle(),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    }
+            )
+        );
     }
 
 
@@ -69,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
         film = new Film("Kong Fu Panda 2", "animation", "2003");
         filmList.add(film);
-
-
     }
 
 
